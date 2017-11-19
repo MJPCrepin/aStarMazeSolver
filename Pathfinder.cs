@@ -17,8 +17,15 @@ namespace aStarMazeSolver
             this.startY = startY;
             this.endX = endX;
             this.endY = endY;
-            maze = new Node[mazeWidth, mazeHeight];
+            maze = new Node[mazeHeight, mazeWidth];
         }
+
+        public void SolveMaze()
+        {
+            
+        }
+
+        
 
     }
 }

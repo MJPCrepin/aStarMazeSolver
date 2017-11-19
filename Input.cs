@@ -6,7 +6,7 @@ namespace aStarMazeSolver
 {
     static class Input
     {
-        private static int mazeWidth, mazeHeight, startX, startY, endX, endY;
+        public static int mazeWidth, mazeHeight, startX, startY, endX, endY;
         private static Pathfinder pathfinder;
 
         public static void getInputs()
@@ -16,13 +16,7 @@ namespace aStarMazeSolver
             getStartPoint();
             getEndPoint();
 
-            // For testing purposes
-            //Console.WriteLine("mazeWidth=" + mazeWidth);
-            //Console.WriteLine("mazeHeight=" + mazeHeight);
-            //Console.WriteLine("startX=" + startX);
-            //Console.WriteLine("startY=" + startY);
-            //Console.WriteLine("endX=" + endX);
-            //Console.WriteLine("endY=" + endY);
+            Output.InitialInputTest(); 
 
             // Build a pathfinder contaning a maze to populate
             pathfinder = new Pathfinder(mazeWidth, mazeHeight, startX, startY, endX, endY);
@@ -30,7 +24,7 @@ namespace aStarMazeSolver
             // Parse and populate the maze
             getMaze(pathfinder.maze);
 
-            // Have each method pass a completed flag?
+            Output.MazeParseTest(pathfinder.maze);
 
             Console.Read(); // hang for testing purposes
 
@@ -93,8 +87,6 @@ namespace aStarMazeSolver
 
             try
             {
-                // used to find 2d array y
-
                 for (int currentLine = 0; currentLine < mazeHeight; currentLine++)
                 {
                     string[] tokens = Console.ReadLine().Split();
@@ -121,19 +113,20 @@ namespace aStarMazeSolver
                 getMaze(pathfinder.maze);
             }
 
+            setStartAndEndPoint();
+        }
 
-
-            // TODO: TEST MAZE PARSING (token++, different sizes, calcH, etc)
-
-
-
+        // Give nodes flags for easier output
+        private static void setStartAndEndPoint()
+        {
+            pathfinder.maze[startY, startX].isStartPoint = true;
+            pathfinder.maze[endY, endX].isEndPoint = true;
         }
 
         // Returns H value for a node (distance of steps to end point)
         private static int calculateH(int line, int column)
         {
             return Math.Abs(line - endY) + Math.Abs(column - endX);
-
         }
     }
 }
