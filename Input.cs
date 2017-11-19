@@ -6,7 +6,7 @@ namespace aStarMazeSolver
 {
     static class Input
     {
-        public static int mazeWidth, mazeHeight, startX, startY, endX, endY;
+        private static int mazeWidth, mazeHeight, startX, startY, endX, endY;
         private static Pathfinder pathfinder;
 
         public static void getInputs()
@@ -16,18 +16,15 @@ namespace aStarMazeSolver
             getStartPoint();
             getEndPoint();
 
-            Output.InitialInputTest(); 
+            Test.InitialInputs(mazeWidth, mazeHeight, startX, startY, endX, endY); // test inputs
 
             // Build a pathfinder contaning a maze to populate
             pathfinder = new Pathfinder(mazeWidth, mazeHeight, startX, startY, endX, endY);
 
-            // Parse and populate the maze
+            // Parse maze input and populate the maze
             getMaze(pathfinder.maze);
 
-            Output.MazeParseTest(pathfinder.maze);
-
-            Console.Read(); // hang for testing purposes
-
+            Test.MazeParse(pathfinder.maze); // test maze parse
         }
 
         private static void getMazeSize()

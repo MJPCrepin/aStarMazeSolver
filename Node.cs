@@ -7,10 +7,10 @@ namespace aStarMazeSolver
     // Object used to hold information about each valid grid space
     class Node
     {
-        private int x, y;
-        Node parent { get; set; }
-        private int f { get; set; } // (g+h)
-        private int g { get; set; } // movement cost (from start)
+        public int x, y;
+        public Node parent { get; set; }
+        public int f { get; set; } // (g+h)
+        public int g { get; set; } // movement cost (from start)
         public int h { get; set; } // heuristic (estimated distance to end)
         public bool isStartPoint, isEndPoint, isPartOfShortestPath;
 
