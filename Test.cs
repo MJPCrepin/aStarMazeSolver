@@ -4,12 +4,20 @@ using System.Text;
 
 namespace aStarMazeSolver
 {
+    // A collection of functions used to debug the program
     static class Test
     {
         // Used for pausing the program
         public static void Hang()
         {
-            Console.WriteLine("Press any key to continue");
+            Console.WriteLine("Press enter to continue");
+            Console.Read();
+        }
+
+        public static void Hang(String message)
+        {
+            Console.WriteLine(message);
+            Console.WriteLine("Press enter to continue");
             Console.Read();
         }
 
@@ -61,6 +69,20 @@ namespace aStarMazeSolver
             }
 
             Hang();
+        }
+
+        public static void NextRecursion(int openCount, int closeCount)
+        {
+            Console.WriteLine("Next step");
+            Console.WriteLine("Open:  " + openCount);
+            Console.WriteLine("Close: " + closeCount);
+
+            Hang();
+        }
+
+        public static void DeclarePathFound()
+        {
+            Hang("Found final path");
         }
     }
 }

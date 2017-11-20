@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace aStarMazeSolver
 {
+    // Contains maze with all valid tiles (nodes) and finds shortest maze path
     class Pathfinder
     {
         private int mazeWidth, mazeHeight, startX, startY, endX, endY;
         public Node[,] maze;
         private List<Node> open, close;
-        private Node startPoint, endPoint;
 
         public Pathfinder(int mazeWidth, int mazeHeight, int startX, int startY, int endX, int endY)
         {
@@ -20,6 +21,8 @@ namespace aStarMazeSolver
             this.endX = endX;
             this.endY = endY;
             maze = new Node[mazeHeight, mazeWidth];
+            open = new List<Node>();
+            close = new List<Node>();
         }
 
         public void SolveMaze()
@@ -38,9 +41,7 @@ namespace aStarMazeSolver
             // find all valid adjacent tiles (+-x, +-y)
             FindAdjacentTiles(start);
 
-            Test.Hang();
-
-            // if open list empty must return error (no possible path)
+            //Test.NextRecursion(open.Count(), close.Count());
 
             RecursiveSearch(TileWithSmallestF());
         }
@@ -64,7 +65,8 @@ namespace aStarMazeSolver
         // Declare current tile parent, do f anf g calculations, add to open list
         private void TryAdjacentTile(Node newTile, Node currentTile)
         {
-            if (newTile != null)
+            // do not add nodes alreay open/closed
+            if (newTile != null && !open.Contains(newTile) && !close.Contains(newTile))
             {
                 if (newTile.isEndPoint)
                 {
@@ -82,16 +84,40 @@ namespace aStarMazeSolver
 
         private void EndPointReached(Node finalTile, Node currentTile)
         {
+            //Test.DeclarePathFound();
+
+            // declare final tile parent
             finalTile.parent = currentTile;
 
-            // backtrack from finalTile
+            // backtrack to start, setting path flags
+            while (currentTile.isStartPoint != true)
+            {
+                currentTile.isPartOfShortestPath = true;
+                currentTile = currentTile.parent;
+            }
+
+            //Test.MazeParse(maze);
+            Output.PrintMaze(maze);
+            Program.RestartPrompt();
         }
 
         private Node TileWithSmallestF()
         {
-            // sort open list
+            // if open list empty there is no possible path
+            if (open.Count <= 0)
+            {
+                Console.WriteLine("No path available for this maze. Restart to try another.");
+                Program.RestartPrompt();
+            }
 
-            // return first item of sorted list
+            // sort open list
+            open.OrderBy(node => node.f);
+
+            // pop first item of sorted list
+            var first = open.First();
+            open.RemoveAt(0);
+
+            return first;
         }
 
     }

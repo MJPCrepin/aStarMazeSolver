@@ -4,30 +4,36 @@ using System.Text;
 
 namespace aStarMazeSolver
 {
-    static class Input
+    // Instantiated input class for easier restart. Gathers all user inputs and produces Pathfinder
+    class Input
     {
-        private static int mazeWidth, mazeHeight, startX, startY, endX, endY;
-        private static Pathfinder pathfinder;
+        private int mazeWidth, mazeHeight, startX, startY, endX, endY;
+        public Pathfinder pathfinder;
 
-        public static void getInputs()
+        public void getInputs()
         {
             // Parse initial information
-            getMazeSize();
-            getStartPoint();
-            getEndPoint();
+            GetMazeSize();
+            GetStartPoint();
+            GetEndPoint();
 
-            Test.InitialInputs(mazeWidth, mazeHeight, startX, startY, endX, endY); // test inputs
+            //Test.InitialInputs(mazeWidth, mazeHeight, startX, startY, endX, endY); // test inputs
 
             // Build a pathfinder contaning a maze to populate
             pathfinder = new Pathfinder(mazeWidth, mazeHeight, startX, startY, endX, endY);
 
             // Parse maze input and populate the maze
-            getMaze(pathfinder.maze);
+            GetMaze(pathfinder.maze);
 
-            Test.MazeParse(pathfinder.maze); // test maze parse
+            //Test.MazeParse(pathfinder.maze); // test maze parse with heuristics
         }
 
-        private static void getMazeSize()
+        public void SolveMaze()
+        {
+            pathfinder.SolveMaze();
+        }
+
+        private void GetMazeSize()
         {
             Console.WriteLine("Please enter maze <WIDTH> and <HEIGHT>");
 
@@ -40,11 +46,11 @@ namespace aStarMazeSolver
             catch
             {
                 Console.WriteLine("Invalid input, try again (must be in format <INT> <INT>)");
-                getMazeSize();
+                GetMazeSize();
             }
         }
 
-        private static void getStartPoint()
+        private void GetStartPoint()
         {
             Console.WriteLine("Please enter <START_X> and <START_Y>");
 
@@ -57,11 +63,11 @@ namespace aStarMazeSolver
             catch
             {
                 Console.WriteLine("Invalid input, try again (must be in format <INT> <INT>)");
-                getStartPoint();
+                GetStartPoint();
             }
         }
 
-        private static void getEndPoint()
+        private void GetEndPoint()
         {
             Console.WriteLine("Please enter <END_X> and <END_Y>");
 
@@ -74,11 +80,11 @@ namespace aStarMazeSolver
             catch
             {
                 Console.WriteLine("Invalid input, try again (must be in format <INT> <INT>)");
-                getEndPoint();
+                GetEndPoint();
             }
         }
 
-        private static void getMaze(Node[,] maze)
+        private void GetMaze(Node[,] maze)
         {
             Console.WriteLine("Please provide maze");
 
@@ -106,22 +112,22 @@ namespace aStarMazeSolver
             }
             catch
             {
-                Console.WriteLine("Invalid input, try again (maze must be square)");
-                getMaze(pathfinder.maze);
+                Console.WriteLine("Invalid input, try again (maze must be of provided size)");
+                GetMaze(pathfinder.maze);
             }
 
             setStartAndEndPoint();
         }
 
         // Give nodes flags for easier output
-        private static void setStartAndEndPoint()
+        private void setStartAndEndPoint()
         {
             pathfinder.maze[startY, startX].isStartPoint = true;
             pathfinder.maze[endY, endX].isEndPoint = true;
         }
 
         // Returns H value for a node (distance of steps to end point)
-        private static int calculateH(int line, int column)
+        private int calculateH(int line, int column)
         {
             return Math.Abs(line - endY) + Math.Abs(column - endX);
         }
