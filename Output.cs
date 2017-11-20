@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace aStarMazeSolver
 {
@@ -20,22 +18,22 @@ namespace aStarMazeSolver
                     {
                         if (maze[i, j].isStartPoint)
                         {
-                            Console.Write("S "); // test start point parse
+                            Console.Write("S"); // test start point parse
                         }
                         else if (maze[i, j].isEndPoint)
                         {
-                            Console.Write("E "); // test end point parse
+                            Console.Write("E"); // test end point parse
                         }
                         else if (maze[i, j].isPartOfShortestPath)
                         {
-                            Console.Write("X "); // test path parse
+                            Console.Write("X"); // test path parse
                         }
                         else
-                            Console.Write("  "); // tests h values
+                            Console.Write(" "); // tests h values
                     }
                     else
                     {
-                        Console.Write("# "); // make wall
+                        Console.Write("#"); // make wall
                     }
                 }
                 Console.WriteLine(); // continue print on new line

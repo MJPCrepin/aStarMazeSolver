@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace aStarMazeSolver
 {
     // Object used to hold information about each valid grid space

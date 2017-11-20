@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.IO;
 
 namespace aStarMazeSolver
 {
@@ -92,6 +91,12 @@ namespace aStarMazeSolver
             {
                 for (int currentLine = 0; currentLine < mazeHeight; currentLine++)
                 {
+                    // Override Console.Read standard 254 char limit
+                    Int32 newReadLimit = 65536;
+                    Stream inputStream = Console.OpenStandardInput();
+                    Console.SetIn(new StreamReader(inputStream, Console.InputEncoding, false, newReadLimit));
+
+                    // Read the maze
                     string[] tokens = Console.ReadLine().Split();
 
                     int currentToken = 0; // used to find 2d array x
